@@ -2,6 +2,7 @@ let express = require("express");
 let mongoose = require("mongoose");
 let cors = require("cors");
 
+
 let app = express();
 // middleware configuration
     app.use(cors());
@@ -22,9 +23,8 @@ let Hero = mongoose.model("Hero", new Schema({
 // const url = "mongodb://localhost:27017/onlinedb";
 const url = 'mongodb+srv://harvey:Aa7730061615@cluster0.aasej.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 mongoose.connect(url)
-.then(()=> console.log("DB Connected"))
-.catch(err=>console.log("Error", err));
-
+        .then(()=> console.log("DB Connected"))
+        .catch(err=>console.log("Error", err));
 
 // route configurations
 // CRUD : Create Read Update Delete
@@ -41,12 +41,13 @@ app.post("/data", (req, res)=>{
     console.log(req.body)
     let hero = new Hero(req.body);
     hero.save()
-    .then(()=> res.status(200).send({message : "User was added in to database"}))
-    .catch(error =>{
-        console.log("Error ", error);
-        res.status(400).send({error : "Failed to create hero"})
-    });
+        .then(()=> res.status(200).send({message : "User was added in to database"}))
+        .catch(error =>{
+            console.log("Error ", error);
+            res.status(400).send({error : "Failed to create hero"})
+        });
 });
+
 app.get("/edit/:id", ( req, res)=>{
     // READ BEFORE UPDATE
     Hero.findById(req.params.id, (error, hero)=>{
@@ -54,6 +55,7 @@ app.get("/edit/:id", ( req, res)=>{
         else{res.status(200).json(hero)}
     })
 });
+
 app.post("/edit/:id", ( req, res)=>{
     // UPDATE
     console.log("Update Request")
@@ -65,11 +67,12 @@ app.post("/edit/:id", ( req, res)=>{
             hero.power = req.body.power;
             hero.city = req.body.city;
             hero.save()
-            .then( hero => res.json( hero ))
-            .catch( err => res.status(400).send({error : err}))
-        }
+                .then( hero => res.json( hero ))
+                .catch( err => res.status(400).send({error : err}))
+            }
     })
 });
+
 app.delete("/delete/:id", ( req, res)=>{
     // DELETE
     Hero.findByIdAndDelete({_id : req.params.id},(error, hero)=>{
