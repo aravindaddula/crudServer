@@ -2,7 +2,7 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
-import connectDB from './connectDB.js';
+// import connectDB from './connectDB.js';
 
 let app = express();
 // middleware configuration
@@ -20,7 +20,13 @@ let Hero = mongoose.model("Hero", new Schema({
     city : String
 }));
 
-connectDB()
+// const url = "mongodb://localhost:27017/onlinedb";
+const url = 'mongodb+srv://harvey:Aa7730061615@cluster0.aasej.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+//send connection request to DB
+
+    mongoose.connect(url)
+    .then(()=> console.log("DB Connected"))
+    .catch(err=>console.log("Error", err));
 
 // route configurations
 // CRUD : Create Read Update Delete
